@@ -101,7 +101,7 @@ function updateScore() {
 }
 
 function reset(didWin) {
-    feedbackMsg.textContent = player + (didWin ? ", you win! " : ", you gave up... ") + "Select another Level";
+    feedbackMsg.textContent = player + (didWin ? ", you got it correct and won! " : ", you gave up... ") + "Select another Level";
     clearInterval(elapsed);
     
     inpt.value = "";
