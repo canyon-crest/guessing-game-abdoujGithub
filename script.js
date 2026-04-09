@@ -74,6 +74,12 @@ function makeGuess() {
     else {
         feedbackMsg.textContent = player + "... that's freeezing cold.";
     }
+    if (guess < answer) {
+        feedbackMsg.textContent += " Too low, try again.";
+    }
+    else if (guess > answer) {
+        feedbackMsg.textContent += " Too high, try again.";
+    }
 }
 
 function giveUp() {
