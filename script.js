@@ -6,7 +6,8 @@ const giveUpBtn = $("giveUpBtn");
 const feedbackMsg = $("msg");
 const levels = document.getElementsByName("level");
 
-let name = prompt("Enter your name:");
+let player = prompt("Enter your name:");
+player = player.charAt(0).toUpperCase() + player.substring(1, player.length).toLowerCase();
 let elapsed;
 let timeElapsed = 0;
 let max = 0;
@@ -16,6 +17,8 @@ let answer = 0;
 const scores = [[], [], []];
 const times = [[], [], []];
 updateLB();
+
+feedbackMsg.textContent = "Select a Level, " + player + "."
 
 playBtn.addEventListener("click", play);
 guessBtn.addEventListener("click", makeGuess);
@@ -36,7 +39,7 @@ function play() {
     giveUpBtn.disabled = false;
 
     //actual stuff
-    feedbackMsg.textContent = "Guess a number, 1-" + max;
+    feedbackMsg.textContent = "Hello, " + player + "! Guess a number, 1-" + max + ".";
     answer = genRandInt(max);
 
     timeElapsed = 0;
@@ -49,7 +52,7 @@ function makeGuess() {
     let guess = parseInt(inpt.value);
     // above and beyond apparently (if not less than 1 or above max)
     if (isNaN(guess) || guess < 1 || guess > max) {
-        feedbackMsg.textContent = "Please enter a valid number";
+        feedbackMsg.textContent = player + ", please enter a valid number.";
         return;
     }
 
@@ -58,27 +61,25 @@ function makeGuess() {
     let diff = Math.abs(guess - answer); 
 
     if (guess === answer){
-        feedbackMsg.textContent = "Correct! It took " + guessCount + (guessCount !== 1 ? " tries." : " try.");
+        feedbackMsg.textContent = "You got it correct, " + player + "! It took you " + guessCount + (guessCount !== 1 ? " tries." : " try.");
         updateScore();
         reset(true);
     }
     else if (diff <= 2) {
-        feedbackMsg.textContent = "you're hottttt.";
+        feedbackMsg.textContent = player + ", you're hottttt.";
     }
     else if (diff <= 5) {
-        feedbackMsg.textContent = "warmmmmmm";
+        feedbackMsg.textContent = "You're getting warmmmmmm, " + player;
     }
     else {
-        feedbackMsg.textContent = "freeezing cold-";
+        feedbackMsg.textContent = player + "... that's freeezing cold.";
     }
 }
 
 function giveUp() {
-
-    // make it add the worst possibility to scores; i.e. if they had already guessed 1 and 2 but gave up before guessing 3, add 1 because there was 1 more number they hadn't guessed
-    // tl;dr add the size of the numbers they didn't guess (between 1 and max)
+    guessCount = max;
+    updateScore(false);
     reset(false);
-    updateScore();
 }
 
 function updateScore() {
@@ -94,8 +95,8 @@ function updateScore() {
 }
 
 function reset(didWin) {
-    //feedbackMsg.textContent = (didWin ? "You win! " : "You gave up... ") + "Select another Level";
-    //clearInterval(elapsed);
+    feedbackMsg.textContent = player + (didWin ? ", you win! " : ", you gave up... ") + "Select another Level";
+    clearInterval(elapsed);
     
     inpt.value = "";
     guessBtn.disabled = true;
@@ -163,7 +164,7 @@ function updateLB() {
     $("statstext").textContent = "Stats (" + ["Easy", "Medium", "Hard"][level] + "):";
     let lb = document.getElementsByName("leaderboard");
     for (let i = 0; i < lb.length; i++) {
-        if (i < scores[level].length) lb[i].textContent = scores[level][i];
+        if (i < scores[level].length) lb[i].textContent = scores[level][i] + (scores[level][i] !== 1 ? " guesses" : " guess");
         else lb[i].textContent = "NONE";
     }
 }
