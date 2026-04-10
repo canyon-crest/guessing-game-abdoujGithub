@@ -42,16 +42,16 @@ function play() {
     for (let i = 0; i < levels.length; i++) { levels[i].disabled = true; }
     playBtn.disabled = true;
     guessBtn.disabled = false;
-    giveUpBtn.disabled = false;
 
-    if (max === -1) { //only happens if custom
+    if (max === 0) { //only happens if custom
         feedbackMsg.textContent = "Enter an upper bound, " + player + ", and make sure it is two or greater."
+        giveUpBtn.disabled = true;
     }
     else { begin(); }
 }
 
 function begin() {
-    //actual stuff
+    giveUpBtn.disabled = false;
     feedbackMsg.textContent = "Hello, " + player + "! Guess a number, 1-" + max + ".";
     answer = genRandInt(max);
 
@@ -106,10 +106,6 @@ function makeGuess() {
 }
 
 function giveUp() {
-    if (getLevel() === 4 && !gameActive) {
-        feedbackMsg.textContent = player + ", you can't give up now...";
-        return;
-    }
     guessCount = max;
     totalGiveUps[getLevel()]++;
     updateScore(false);
