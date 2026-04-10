@@ -17,7 +17,7 @@ toggleBtn.addEventListener("click", ()=> {
 });
 
 let player = prompt("Enter your name:");
-player = player.charAt(0).toUpperCase() + player.substring(1, player.length).toLowerCase();
+player = player ? player.charAt(0).toUpperCase() + player.substring(1, player.length).toLowerCase() : "Anonymous";
 let elapsed;
 let timeElapsed = 0;
 let max = 0;

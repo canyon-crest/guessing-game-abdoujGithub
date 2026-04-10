@@ -8,5 +8,6 @@ ABOVE AND BEYOND:
 | adjusted gui to match gamestate 
 > (i.e. "Guess" button because "Submit" when asked to submit custom range)
 | changed color of current guess feedback to match whether hot, cold, or correct
+| made your name "Anonymous" if you didn't select one.
 
 AI was used only to help design the website; all code outside styles.css was written by me.
