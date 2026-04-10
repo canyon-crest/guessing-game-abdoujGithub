@@ -43,7 +43,7 @@ function play() {
     playBtn.disabled = true;
     guessBtn.disabled = false;
     giveUpBtn.disabled = false;
-
+ 
     if (max === 0) { //only happens if custom
         feedbackMsg.textContent = "Enter an upper bound, " + player + ", and make sure it is two or greater."
     }
