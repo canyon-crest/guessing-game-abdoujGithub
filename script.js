@@ -177,7 +177,7 @@ function updateLB() {
 }
 
 function reset(didWin) {
-    feedbackMsg.textContent = player + (didWin ? ", you got it correct and won! " : ", you gave up... ") + "Select another Level,";
+    feedbackMsg.textContent = player + (didWin ? ", you got it correct and won! " : ", you gave up... ") + "Select another Level.";
     clearInterval(elapsed);
     
     hasGuessed.length = 0;
