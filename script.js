@@ -5,7 +5,16 @@ const guessBtn = $("guessBtn");
 const giveUpBtn = $("giveUpBtn");
 const feedbackMsg = $("msg");
 const dateTxt = $("date");
+const sidebar = $("sidebar");
+const toggleBtn = $("toggleSidebar");
+const guessList = $("guessList");
 const levels = document.getElementsByName("level");
+
+//looked up this syntax
+toggleBtn.addEventListener("click", ()=> {
+  sidebar.classList.toggle("collapsed");
+  toggleBtn.textContent = sidebar.classList.contains("collapsed") ? "⮞" : "⮜";
+});
 
 let player = prompt("Enter your name:");
 player = player.charAt(0).toUpperCase() + player.substring(1, player.length).toLowerCase();
@@ -15,6 +24,7 @@ let max = 0;
 let guessCount = 0;
 let answer = 0;
 let gameActive = false;
+const hasGuessed = [];
 
 const names = ["Easy", "Medium", "Hard", "Custom"];
 const scores = [[], [], [], []];
@@ -26,6 +36,7 @@ updateDate();
 setInterval(updateDate, 1000);
 
 feedbackMsg.textContent = "Select a Level, " + player + ".";
+inpt.disabled = true;
 
 playBtn.addEventListener("click", play);
 guessBtn.addEventListener("click", makeGuess);
@@ -34,6 +45,8 @@ for (let i = 0; i < levels.length; i++) { levels[i].addEventListener("click", up
 
 function play() {
     //variables
+    guessList.innerHTML = "";
+
     max = getMax();
     updateLB();
 
@@ -42,18 +55,21 @@ function play() {
     playBtn.disabled = true;
     guessBtn.disabled = false;
  
-    if (max === 0) { //only happens if custom
+    inpt.disabled = false;
+    if (getLevel() === 3) { //only happens if custom
         feedbackMsg.textContent = "Enter an upper bound, " + player + ", and make sure it is two or greater."
         giveUpBtn.disabled = true;
+        guessBtn.textContent = "Submit";
     }
     else { begin(); }
 }
 
 function begin() {
-    //actual stuff
     feedbackMsg.textContent = "Hello, " + player + "! Guess a number, 1-" + max + ".";
     answer = genRandInt(max);
     giveUpBtn.disabled = false;
+    guessBtn.textContent = "Guess";
+    inpt.value = "";
 
     timeElapsed = 0;
     elapsed = setInterval(timer, 10);
@@ -61,9 +77,6 @@ function begin() {
 }
 
 function makeGuess() {
-    // For more above and beyond i can check whether they put in a float vs an integer
-    // and i can punish them if they put like 2.3 for being a nuissance :)
-
     let guess = parseInt(inpt.value);
 
     if (!gameActive) {
@@ -75,34 +88,52 @@ function makeGuess() {
     }
 
     if (isNaN(guess) || guess < 1 || guess > max) {
-        feedbackMsg.textContent = player + ", please enter a valid number.";
+        feedbackMsg.textContent = player + ", please enter a valid number (1-" + max + ").";
         return;
     }
 
+    if (hasGuessed.includes(guess)) {
+        feedbackMsg.textContent = player + ", you've already guessed '" + guess + "'.";
+        return;
+    }
+
+    hasGuessed.push(guess);
     guessCount++;
+
+    let gss = document.createElement("gss");
+    let gssContent = guess+" ";
 
     let diff = Math.abs(guess - answer); 
 
     if (guess === answer){
         feedbackMsg.textContent = "You got it correct, " + player + "! It took you " + guessCount + (guessCount !== 1 ? " tries." : " try.");
+        gssContent += "(Correct!)";
         updateScore();
         reset(true);
     }
     else if (diff <= 2) {
-        feedbackMsg.textContent = player + ", you're hottttt.";
+        feedbackMsg.textContent = player + ", you're hottt.";
+        gssContent += "(hot";
     }
     else if (diff <= 5) {
-        feedbackMsg.textContent = "You're getting warmmmmmm, " + player;
+        feedbackMsg.textContent = "That's warm, " + player + ".";
+        gssContent += "(warm";
     }
     else {
-        feedbackMsg.textContent = player + "... that's freeezing cold.";
+        feedbackMsg.textContent = player + "... that's freezing cold.";
+        gssContent += "(cold";
     }
     if (guess < answer) {
         feedbackMsg.textContent += " Too low, try again.";
+        gssContent += ", too low)";
     }
     else if (guess > answer) {
         feedbackMsg.textContent += " Too high, try again.";
+        gssContent += ", too high)";
     }
+    gss.textContent = gssContent;
+    gss.style.color = (guess > answer ? "#f87171" : (guess === answer ? "#4ade80" : "#38bdf8"));
+    guessList.appendChild(gss);
 }
 
 function giveUp() {
@@ -149,10 +180,13 @@ function reset(didWin) {
     feedbackMsg.textContent = player + (didWin ? ", you got it correct and won! " : ", you gave up... ") + "Select another Level";
     clearInterval(elapsed);
     
+    hasGuessed.length = 0;
+
     inpt.value = "";
     guessBtn.disabled = true;
     giveUpBtn.disabled = true;
     playBtn.disabled = false;
+    inpt.disabled = true;
     for (let i = 0; i < levels.length; i++) { levels[i].disabled = false; }
 
     guessCount = 0;

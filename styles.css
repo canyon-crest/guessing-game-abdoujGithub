@@ -1,0 +1,178 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #0f172a;
+  color: #e2e8f0;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.container {
+  width: 600px;
+  flex: 1;
+  background: #020617;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 40px;
+  background: #020617;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  transition: width 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar ul {
+  padding-left: 15px;
+}
+
+.sidebar li {
+  background: #1e293b;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  padding: 20px 10px;
+}
+
+.sidebar.collapsed h3,
+.sidebar.collapsed ul {
+  display: none;
+}
+
+#toggleSidebar {
+  background: #1e293b;
+  margin-bottom: 10px;
+  width: 100%;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.sidebar * {
+  transition: opacity 0.2s ease;
+}
+
+.sidebar.collapsed *:not(#toggleSidebar) {
+  opacity: 0;
+}
+
+h3 {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+#statstext, #lbtext {
+  margin-top: 30px;
+  border-top: 1px solid #334155;
+  padding-top: 15px;
+}
+
+button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+button:disabled {
+  background: #475569;
+  cursor: not-allowed;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: #1e293b;
+  color: white;
+}
+
+input[type="radio"] {
+  margin-right: 5px;
+}
+
+label {
+  margin-right: 15px;
+}
+
+ol {
+  padding-left: 20px;
+}
+
+li {
+  background: #1e293b;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+#msg {
+  margin-top: 20px;
+  color: #38bdf8;
+}
+
+#date {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+#guessList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 15px;
+  margin: 0;
+}
+
+#guessList li {
+  animation: popIn 0.2s ease;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
