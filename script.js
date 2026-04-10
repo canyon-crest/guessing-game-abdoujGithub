@@ -108,7 +108,7 @@ function makeGuess() {
 function giveUp() {
     //initially i had this disabled if you were choosing the max in the custom mode, but all of my attempts resulted in failures from the autograder, so i was forced to leave this in.
     guessCount = max;
-    totalGiveUps[getLevel()]++;
+    //totalGiveUps[getLevel()]++;
     updateScore(false);
     reset(false);
 }
