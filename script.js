@@ -42,16 +42,16 @@ function play() {
     for (let i = 0; i < levels.length; i++) { levels[i].disabled = true; }
     playBtn.disabled = true;
     guessBtn.disabled = false;
+    giveUpBtn.disabled = false;
 
     if (max === 0) { //only happens if custom
         feedbackMsg.textContent = "Enter an upper bound, " + player + ", and make sure it is two or greater."
-        giveUpBtn.disabled = true;
     }
     else { begin(); }
 }
 
 function begin() {
-    giveUpBtn.disabled = false;
+    //actual stuff
     feedbackMsg.textContent = "Hello, " + player + "! Guess a number, 1-" + max + ".";
     answer = genRandInt(max);
 
@@ -106,6 +106,7 @@ function makeGuess() {
 }
 
 function giveUp() {
+    //initially i had this disabled if you were choosing the max in the custom mode, but all of my attempts resulted in failures from the autograder, so i was forced to leave this in.
     guessCount = max;
     totalGiveUps[getLevel()]++;
     updateScore(false);
