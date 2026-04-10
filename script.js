@@ -106,7 +106,7 @@ function makeGuess() {
 }
 
 function giveUp() {
-    if (!gameActive) {
+    if (getLevel() === 4 && !gameActive) {
         feedbackMsg.textContent = player + ", you can't give up now...";
         return;
     }
